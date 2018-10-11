@@ -53,7 +53,7 @@ func (this *HashServer) DelNode(ip string) {
 	this.BuildRing()
 }
 
-func (this *HashServer) GetNode(ip string) string {
+func (this *HashServer) LoadBalance(ip string) string {
 	this.Lock.RLock()
 	defer this.Lock.RUnlock()
 	if this.Empty() {

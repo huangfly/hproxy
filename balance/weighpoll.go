@@ -5,14 +5,14 @@ import (
 	"sync"
 )
 
-type Server struct {
+type NodeServer struct {
 	Ip           string
 	Wight        int
 	CurrentWitht int
 }
 
 type WightServer struct {
-	ServerBuf []Server
+	ServerBuf []NodeServer
 	Lock      *sync.Mutex
 }
 
@@ -42,15 +42,15 @@ func (this *WightServer) addWight() {
 	}
 }
 
-func (this *WightServer) LoadBalance() string {
+func (this *WightServer) LoadBalance(ip string) string {
 	this.addWight()
 	index := this.getMaxWight()
 	return this.ServerBuf[index].Ip
 }
 
-func NewWightServer(args ...Server) *WightServer {
+func NewWightServer(args ...NodeServer) *WightServer {
 	wightsvr := &WightServer{
-		ServerBuf: make([]Server, 0),
+		ServerBuf: make([]NodeServer, 0),
 		Lock:      &sync.Mutex{},
 	}
 	for _, arg := range args {
