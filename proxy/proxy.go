@@ -37,16 +37,14 @@ func NewProxySvr() *http.Server {
 //重写ServerHttp接口
 func (this *ProxySvr) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	log.Println("start proxy")
-	mgr, _ := balance.GetBalanceInstance("round")
+	mgr, _ := balance.GetBalanceInstance()
 	ip := mgr.LoadBalance(req.Host)
 	req.Host = ip
 	req.URL.Host = ip
 	req.URL.Scheme = "http"
 	switch req.Method {
 	case "CONNECT":
-		ProxyHttpsHandler(rw, req)
-	case "GET":
-
+		this.ProxyHttpsHandler(rw, req)
 	default:
 		this.ProxyHttpHandler(rw, req)
 	}
@@ -77,6 +75,7 @@ func (this *ProxySvr) ProxyHttpHandler(rw http.ResponseWriter, req *http.Request
 
 func (this *ProxySvr) ProxyHttpsHandler(rw http.ResponseWriter, req *http.Request) {
 	hijack, _ := rw.(http.Hijacker)
+	//接管rw的链接信息，以及buio
 	clientConn, _, err := hijack.Hijack()
 	if err != nil {
 		log.Println("https hijack error : ", err.Error())

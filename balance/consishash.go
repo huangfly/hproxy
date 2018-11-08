@@ -31,6 +31,7 @@ type HashServer struct {
 	Lock         *sync.RWMutex
 }
 
+//生成一个hash算法的负载均衡器
 func NewHashServer() *HashServer {
 	return &HashServer{
 		VirtualNodes: make(map[uint32]string),
@@ -39,13 +40,21 @@ func NewHashServer() *HashServer {
 	}
 }
 
-func (this *HashServer) AddNode(ip string, virualweight int) {
+//向负载均衡器里添加多个代理服务器节点
+func (this *HashServer) AddNodes(args ...NodeServer) {
+	for _, v := range args {
+		this.addNode(v.Ip, v.Wight)
+	}
+}
+
+func (this *HashServer) addNode(ip string, virualweight int) {
 	this.Lock.Lock()
 	defer this.Lock.Unlock()
 	this.Nodes[ip] = virualweight
 	this.BuildRing()
 }
 
+//删除节点
 func (this *HashServer) DelNode(ip string) {
 	this.Lock.Lock()
 	defer this.Lock.Unlock()
@@ -53,6 +62,7 @@ func (this *HashServer) DelNode(ip string) {
 	this.BuildRing()
 }
 
+//根据ip计算hash值 找到对应的服务器
 func (this *HashServer) LoadBalance(ip string) string {
 	this.Lock.RLock()
 	defer this.Lock.RUnlock()
@@ -69,6 +79,7 @@ func (this *HashServer) LoadBalance(ip string) string {
 	return this.VirtualNodes[this.Ring[index]]
 }
 
+//构建哈希环
 func (this *HashServer) BuildRing() {
 	for key, val := range this.Nodes {
 		for i := 0; i < val; i++ {

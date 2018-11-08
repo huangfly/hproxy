@@ -5,12 +5,6 @@ import (
 	"sync"
 )
 
-type NodeServer struct {
-	Ip           string
-	Wight        int
-	CurrentWitht int
-}
-
 type WightServer struct {
 	ServerBuf []NodeServer
 	Lock      *sync.Mutex
