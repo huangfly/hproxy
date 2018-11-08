@@ -37,6 +37,7 @@ Method可以配置为round 或 hash
 }
 
 ##使用示例
+
 import (
 	"log"
 
