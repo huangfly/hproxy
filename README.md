@@ -22,6 +22,7 @@ Method可以配置为round 或 hash
 "Ip": "192.168.5.113:9090", 
 
 "Wight": 5
+
 }, 
 
 {
@@ -30,7 +31,9 @@ Method可以配置为round 或 hash
 "Wight": 5
 
 }
+
 ]
+
 }
 
 ##使用示例
