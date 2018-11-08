@@ -39,13 +39,16 @@ Method可以配置为round 或 hash
 ##使用示例
 
 import (
+	
 	"log"
 
 	"github.com/huangfly/hproxy/proxy"
 )
 
 func main() {
+	
 	proxy := proxy.NewProxySvr(8088)
+	
 	log.Fatal(proxy.ListenAndServe())
 
 }
