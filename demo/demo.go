@@ -3,14 +3,12 @@ package main
 
 import (
 	"log"
-	_ "os"
 
-	_ "github.com/huangfly/hproxy/balance"
 	"github.com/huangfly/hproxy/proxy"
 )
 
 func main() {
-	proxy := proxy.NewProxySvr()
+	proxy := proxy.NewProxySvr(8088)
 	log.Fatal(proxy.ListenAndServe())
 
 }

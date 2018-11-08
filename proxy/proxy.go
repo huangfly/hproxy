@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/huangfly/hproxy/balance"
@@ -27,9 +28,9 @@ type ProxySvr struct {
 	Trans *http.Transport
 }
 
-func NewProxySvr() *http.Server {
+func NewProxySvr(port int) *http.Server {
 	return &http.Server{
-		Addr:    ":8989",
+		Addr:    ":" + strconv.Itoa(port),
 		Handler: &ProxySvr{Trans: &http.Transport{Proxy: http.ProxyFromEnvironment, DisableKeepAlives: true}},
 	}
 }
