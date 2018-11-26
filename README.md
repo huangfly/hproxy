@@ -3,7 +3,7 @@
 
 hproxy 提供http反向代理的功能，同时支持两种负载均衡算法分别是加权轮询以及hash算法，通过配置文件config.json配置
 
-##配置文件
+## 配置文件
 Method可以配置为round 或 hash
 
 ```
@@ -26,7 +26,7 @@ Method可以配置为round 或 hash
 }
 ```
 
-##使用示例
+## 使用示例
 
 ```
 import (
