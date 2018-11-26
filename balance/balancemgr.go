@@ -33,7 +33,7 @@ var BalanceInitErr = errors.New("not found the specific balance method")
 var conf JsonConfig
 
 func init() {
-	data, err := ioutil.ReadFile("./config.json")
+	data, err := ioutil.ReadFile("../conf/config.json")
 	if err != nil {
 		log.Println("read config.json file error, ", err.Error())
 		os.Exit(-1)
