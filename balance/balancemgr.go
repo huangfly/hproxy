@@ -34,16 +34,20 @@ type NodeServer struct {
 var BalanceInitErr = errors.New("not found the specific balance method")
 var conf JsonConfig
 
+func printCurrentPath() {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal(err)
+	}
+	strings.Replace(dir, "\\", "/", -1)
+	log.Println("current path is ", dir)
+}
+
 func init() {
 	data, err := ioutil.ReadFile("../conf/config.json")
 	if err != nil {
-		dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-		if err != nil {
-			log.Fatal(err)
-		}
-		strings.Replace(dir, "\\", "/", -1)
 		log.Println("read config.json file error, ", err.Error())
-		log.Println("current path is ", dir)
+		printCurrentPath()
 		os.Exit(-1)
 	}
 	err = json.Unmarshal([]byte(data), &conf)
