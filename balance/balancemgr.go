@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
+	"strings"
 )
 
 //定义负载均衡接口interface
@@ -35,7 +37,13 @@ var conf JsonConfig
 func init() {
 	data, err := ioutil.ReadFile("../conf/config.json")
 	if err != nil {
+		dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+		if err != nil {
+			log.Fatal(err)
+		}
+		strings.Replace(dir, "\\", "/", -1)
 		log.Println("read config.json file error, ", err.Error())
+		log.Println("current path is ", dir)
 		os.Exit(-1)
 	}
 	err = json.Unmarshal([]byte(data), &conf)
